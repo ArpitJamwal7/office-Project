@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Office Space for Rent in Chandigarh & Mohali | Commercial Properties</title>
+  <meta name="description"
+    content="Find office space for rent in Chandigarh and Mohali. Premium commercial properties in all sectors at best prices.">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <link rel="stylesheet" href="style.css">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+</head>
+
+<body>
+
+  <!-- NAVBAR -->
+  <header>
+
+    <a href="http://localhost:5173/" class="logo">
+      <img src="images/Llogo.png" alt="Website Logo">
+      <span> Office Spaces For Rent In Chd & Mohali</span>
+    </a>
+    <nav id="nav-menu">
+      <a href="http://localhost:5173/">Home</a>
+      <a href="about.html">About Us</a>
+      <a href="admin.html">Admin Login</a>
+    </nav>
+
+    <!-- Hamburger for mobile -->
+    <div class="hamburger" id="hamburger">
+      <span></span>
+      <span></span>
+      <span></span>
+    </div>
+  </header>
+
+  <!-- HERO SECTION -->
+  <section class="hero">
+    <div class="hero-content">
+      <h1>Find Your Perfect Office Space in Chd & Mohali</h1>
+      <p>Browse the best office spaces available for rent</p>
+
+      <!-- ✅ FIXED (NO DOUBLE FORM) -->
+      <form class="search-box">
+
+        <div>
+          <label>Location:</label>
+          <input type="text" placeholder="Enter Sector or City (e.g. 17, 34)">
+        </div>
+
+        <div class="budget-section">
+          <span class="budget-text">
+            Budget: Up to ₹<span id="budgetValue">2000000</span>
+          </span>
+          <input type="range" id="budgetRange" min="30000" max="2000000" value="2000000">
+        </div>
+
+        <button type="button" class="search-btn" onclick="filterProperties()">Search</button>
+
+      </form>
+    </div>
+  </section>
+
+  <!-- STATS -->
+  <section class="stats">
+    <div>
+      <h2>500+</h2>
+      <p>Office Listings</p>
+    </div>
+    <div>
+      <h2>50+</h2>
+      <p>Sectors Covered</p>
+    </div>
+    <div>
+      <h2>₹10+Lakh/mo</h2>
+      <p>Max Budget</p>
+    </div>
+  </section>
+
+  <!-- FEATURED -->
+  <section class="featured">
+    <h2>Featured Office Spaces In Chandigarh & Mohali</h2>
+
+    <div class="filter-buttons">
+      <button onclick="filterCity('All', this)" id="defaultCity">All</button>
+      <button onclick="filterCity('Chandigarh', this)">Chandigarh</button>
+      <button onclick="filterCity('Mohali', this)">Mohali</button>
+    </div>
+
+    <!-- ✅ VERY IMPORTANT (JS WILL INSERT CARDS HERE) -->
+    <div class="cards" id="cardsContainer"></div>
+
+    <button class="btn-primary center-btn" id="viewAllBtn">
+      View All Listings →
+    </button>
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    <div class="footer-container">
+
+      <div>
+        <h2> Office Space For Rent In Chd & Mohali</h2>
+        <p>Premium Commercial Office Spaces for Rent & Lease</p>
+      </div>
+
+      <div>
+        <h3>Quick Links</h3>
+        <p>Email: mukeshattri78@gmail.com</p>
+        <p>Phone: +91-99150-02795</p>
+      </div>
+
+    </div>
+  </footer>
+
+  <!-- MODAL -->
+  <div id="property-modal" class="modal">
+    <div class="modal-content">
+      <span class="close">&times;</span>
+
+      <h2 id="modal-title"></h2>
+      <p id="modal-price"></p>
+      <p id="modal-location"></p>
+
+      <hr>
+
+      <h3>Details</h3>
+      <p><strong>Furnishing:</strong> <span id="modal-furnishing"></span></p>
+      <p><strong>Listed By:</strong> <span id="modal-listed"></span></p>
+      <p><strong>Area:</strong> <span id="modal-area"></span></p>
+      <p><strong>Washrooms:</strong> <span id="modal-washrooms"></span></p>
+
+      <h3>Description</h3>
+      <p id="modal-description"></p>
+    </div>
+  </div>
+
+  <!-- EXTERNAL JS -->
+  <script type="module" src="script.js"></script>
+
+</body>
+
+</html>

@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Admin Dashboard | Office Space Rentals</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="admin.css">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+</head>
+
+<body>
+
+    <!-- NAVBAR -->
+    <header>
+        <a href="http://localhost:5173/" class="logo">
+            <img src="images/Llogo.png" alt="Website Logo">
+            <span>Admin Portal | Office Spaces</span>
+        </a>
+        <nav id="nav-menu">
+            <a href="http://localhost:5173/">View Live Site</a>
+            <a href="http://localhost:5173/">Home</a>
+            <a href="about.html">About Us</a>
+            <a href="#" id="logoutBtn" style="display:none; color: #ff4d4d;">Logout</a>
+        </nav>
+
+        <!-- Hamburger for mobile -->
+        <div class="hamburger" id="hamburger">
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+    </header>
+
+    <!-- LOGIN SECTION -->
+    <section id="loginSection" class="admin-section active">
+        <div class="glass-panel login-glass">
+            <h2>Admin Login</h2>
+            <p>Sign in to manage properties</p>
+            <form id="loginForm">
+                <div class="input-group">
+                    <label>Email</label>
+                    <input type="email" id="loginEmail" required placeholder="admin@example.com">
+                </div>
+                <div class="input-group">
+                    <label>Password</label>
+                    <input type="password" id="loginPassword" required placeholder="••••••••">
+                </div>
+                <p id="loginError" class="error-msg"></p>
+                <button type="submit" class="btn-primary" id="loginSubmitBtn">Secure Login</button>
+            </form>
+        </div>
+    </section>
+
+    <!-- DASHBOARD SECTION -->
+    <section id="dashboardSection" class="admin-section">
+        <div class="dashboard-container">
+            <div class="dashboard-header">
+                <h2>Manage Properties</h2>
+                <button id="addPropertyBtn" class="btn-primary">+ Add New Property</button>
+            </div>
+
+            <div class="table-container">
+                <table id="propertiesTable">
+                    <thead>
+                        <tr>
+                            <th>Image</th>
+                            <th>Title</th>
+                            <th>Location</th>
+                            <th>Price</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="adminPropertiesList">
+                        <!-- Populated by JS -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </section>
+
+    <!-- ADD/EDIT PROPERTY MODAL -->
+    <div id="propertyAdminModal" class="modal">
+        <div class="modal-content admin-modal-content">
+            <span class="close-admin-modal">&times;</span>
+            <h2 id="modalTitle">Add Property</h2>
+
+            <form id="propertyForm" class="property-form">
+                <input type="hidden" id="editPropertyId">
+
+                <div class="form-grid">
+                    <div class="input-group">
+                        <label>Property Title</label>
+                        <input type="text" id="propTitle" required placeholder="e.g. Modern Office Suite">
+                    </div>
+                    <div class="input-group">
+                        <label>Price / month (₹)</label>
+                        <input type="number" id="propPrice" required placeholder="e.g. 50000">
+                    </div>
+                    <div class="input-group">
+                        <label>Location (Area/Sector)</label>
+                        <input type="text" id="propLocation" required placeholder="e.g. Sector 17">
+                    </div>
+                    <div class="input-group">
+                        <label>City</label>
+                        <select id="propCity" required>
+                            <option value="Chandigarh">Chandigarh</option>
+                            <option value="Mohali">Mohali</option>
+                        </select>
+                    </div>
+                    <div class="input-group">
+                        <label>Area (sqft)</label>
+                        <input type="text" id="propArea" required placeholder="e.g. 1500 sqft">
+                    </div>
+                    <div class="input-group">
+                        <label>Furnishing</label>
+                        <select id="propFurnishing" required>
+                            <option value="Furnished">Furnished</option>
+                            <option value="Semi-Furnished">Semi-Furnished</option>
+                            <option value="Unfurnished">Unfurnished</option>
+                        </select>
+                    </div>
+                    <div class="input-group">
+                        <label>Listed By</label>
+                        <select id="propListed" required>
+                            <option value="Owner">Owner</option>
+                            <option value="Dealer">Dealer</option>
+                            <option value="Builder">Builder</option>
+                        </select>
+                    </div>
+                    <div class="input-group">
+                        <label>Washrooms</label>
+                        <input type="number" id="propWashrooms" required placeholder="e.g. 2">
+                    </div>
+                </div>
+
+                <div class="input-group full-width">
+                    <label>Description</label>
+                    <textarea id="propDescription" rows="3" required placeholder="Detailed description..."></textarea>
+                </div>
+
+                <div class="input-group full-width">
+                    <label>Property Image (Direct Upload)</label>
+                    <input type="hidden" id="propImage"> <!-- Keeps the URL after upload for edit mode -->
+                    <div class="image-upload-area">
+                        <img id="imagePreview" src="" alt="Preview"
+                            style="display:none; margin-bottom: 10px; max-height: 200px; border-radius: 8px;">
+                        <input type="file" id="propImageFile" accept="image/*" class="upload-btn"
+                            style="width: 100%; border: 1px dashed #ccc; padding: 20px;">
+                        <p id="uploadStatus" style="font-size: 0.85rem; color: #555; margin-top: 5px;"></p>
+                    </div>
+                </div>
+
+                <div class="modal-actions">
+                    <button type="button" class="btn-secondary" id="cancelBtn">Cancel</button>
+                    <button type="submit" class="btn-primary" id="savePropertyBtn">Save Property</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script type="module" src="admin.js"></script>
+
+</body>
+
+</html>
