@@ -1,6 +1,6 @@
 // Firebase imports kept for Firestore CRUD, but Auth is removed
 import { db } from "./firebase-config.js";
-import { collection, getDocs, addDoc, updateDoc, deleteDoc, doc } from "firebase/firestore";
+import { collection, getDocs, addDoc, updateDoc, deleteDoc, doc } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore.js";
 
 // UI Elements
 const loginSection = document.getElementById("loginSection");
@@ -16,60 +16,117 @@ const propertyForm = document.getElementById("propertyForm");
 const modalClose = document.querySelector(".close-admin-modal");
 const cancelBtn = document.getElementById("cancelBtn");
 
+// Lead System Elements
+const leadsSection = document.getElementById("leadsSection");
+const leadsTableBody = document.getElementById("adminLeadsList");
+const adminNavItems = document.querySelectorAll(".admin-nav-item");
+const refreshLeadsBtn = document.getElementById("refreshLeadsBtn");
+
 // State
 let properties = [];
+let leads = [];
 let uploadWidget;
 
 // ==========================================
 // 1. AUTHENTICATION & STATE MANAGEMENT
 // ==========================================
 
+function isAdminLoggedIn() {
+    return localStorage.getItem("adminLoggedIn") === "true";
+}
+
 // Check localStorage on load
 function checkAuthState() {
-    const isLoggedIn = localStorage.getItem("adminLoggedIn") === "true";
-    if (isLoggedIn) {
+    // Hide all sections initially
+    [loginSection, dashboardSection, leadsSection].forEach(sec => sec.classList.remove("active"));
+
+    if (isAdminLoggedIn()) {
         // User is logged in
-        loginSection.classList.remove("active");
         dashboardSection.classList.add("active");
         logoutBtn.style.display = "block";
+        adminNavItems.forEach(item => item.style.display = ""); // Show nav items
 
         // Load data
         fetchProperties();
     } else {
         // User is logged out
         loginSection.classList.add("active");
-        dashboardSection.classList.remove("active");
         logoutBtn.style.display = "none";
+        adminNavItems.forEach(item => item.style.display = "none"); // Hide nav items
+        properties = [];
+        leads = [];
     }
 }
+
+// Admin credentials
+import { ADMIN_EMAIL, ADMIN_PASSWORD } from "./credentials.js";
 
 // Initial Check
 checkAuthState();
 
 loginForm.addEventListener("submit", (e) => {
+
     e.preventDefault();
-    const email = document.getElementById("loginEmail").value;
+
+    const email = document.getElementById("loginEmail").value.trim();
     const password = document.getElementById("loginPassword").value;
 
-    // Hardcoded credentials as requested
-    if (email === "mukeshattri78@gmail.com" && password === "MkConsultant@1979") {
+    if (email === ADMIN_EMAIL && password === ADMIN_PASSWORD) {
+
         loginError.textContent = "";
         localStorage.setItem("adminLoggedIn", "true");
+
         checkAuthState();
+
     } else {
+
         loginError.textContent = "Invalid Credentials. Please try again.";
+
     }
+
 });
 
 logoutBtn.addEventListener("click", () => {
+
     localStorage.removeItem("adminLoggedIn");
-    checkAuthState();
+
+    properties = [];
+    leads = [];
+
+    location.reload();
+
+});
+
+// Admin Navigation (Tab Switching)
+adminNavItems.forEach(item => {
+    item.addEventListener("click", (e) => {
+        e.preventDefault();
+        const targetSectionId = item.dataset.section;
+
+        // Toggle Active Class in Nav
+        adminNavItems.forEach(i => i.classList.remove("active"));
+        item.classList.add("active");
+
+        // Toggle Sections
+        [dashboardSection, leadsSection].forEach(sec => sec.classList.remove("active"));
+        document.getElementById(targetSectionId).classList.add("active");
+
+        if (targetSectionId === "leadsSection") {
+            fetchLeads();
+        } else {
+            fetchProperties();
+        }
+    });
 });
 
 // ==========================================
 // 2. FIRESTORE CRUD OPERATIONS
 // ==========================================
 async function fetchProperties() {
+    if (!isAdminLoggedIn()) {
+        console.warn("Unauthorized access blocked");
+        return;
+    }
     try {
         const querySnapshot = await getDocs(collection(db, "properties"));
         properties = [];
@@ -286,4 +343,93 @@ async function deleteProperty(id) {
             console.error(err);
         }
     }
+}
+
+// ==========================================
+// 5. LEAD MANAGEMENT
+// ==========================================
+async function fetchLeads() {
+    if (!isAdminLoggedIn()) {
+        console.warn("Unauthorized access blocked");
+        return;
+    }
+    try {
+        leadsTableBody.innerHTML = `<tr><td colspan="5" style="text-align:center;">Loading leads...</td></tr>`;
+        const querySnapshot = await getDocs(collection(db, "leads"));
+        leads = [];
+        querySnapshot.forEach((doc) => {
+            leads.push({ id: doc.id, ...doc.data() });
+        });
+
+        // Sort by timestamp descending
+        leads.sort((a, b) => (b.timestamp?.seconds || 0) - (a.timestamp?.seconds || 0));
+
+        renderLeadsTable();
+    } catch (err) {
+        console.error("Error fetching leads:", err);
+        leadsTableBody.innerHTML = `<tr><td colspan="5" style="text-align:center; color:red;">Error loading leads.</td></tr>`;
+    }
+}
+
+function renderLeadsTable() {
+    leadsTableBody.innerHTML = "";
+    if (leads.length === 0) {
+        leadsTableBody.innerHTML = `<tr><td colspan="5" style="text-align:center;">No leads found.</td></tr>`;
+        return;
+    }
+
+    leads.forEach((l) => {
+        const date = l.timestamp ? new Date(l.timestamp.seconds * 1000).toLocaleString() : "N/A";
+        const tr = document.createElement("tr");
+        tr.innerHTML = `
+            <td>${date}</td>
+            <td><strong>${l.phone}</strong></td>
+            <td>${l.propertyName || "Unknown"}</td>
+            <td><span class="status-badge status-${l.status.toLowerCase()}">${l.status}</span></td>
+            <td>
+                <select class="status-select" data-id="${l.id}">
+                    <option value="New" ${l.status === 'New' ? 'selected' : ''}>New</option>
+                    <option value="Contacted" ${l.status === 'Contacted' ? 'selected' : ''}>Contacted</option>
+                    <option value="Closed" ${l.status === 'Closed' ? 'selected' : ''}>Closed</option>
+                </select>
+                <button class="action-btn delete-lead-btn" data-id="${l.id}">Delete</button>
+            </td>
+        `;
+        leadsTableBody.appendChild(tr);
+    });
+
+    // Attach Lead Events
+    document.querySelectorAll(".status-select").forEach(select => {
+        select.addEventListener("change", (e) => updateLeadStatus(e.target.dataset.id, e.target.value));
+    });
+
+    document.querySelectorAll(".delete-lead-btn").forEach(btn => {
+        btn.addEventListener("click", () => deleteLead(btn.dataset.id));
+    });
+}
+
+async function updateLeadStatus(id, newStatus) {
+    try {
+        await updateDoc(doc(db, "leads", id), { status: newStatus });
+        fetchLeads();
+    } catch (err) {
+        alert("Error updating lead status.");
+        console.error(err);
+    }
+}
+
+async function deleteLead(id) {
+    if (confirm("Delete this lead permanently?")) {
+        try {
+            await deleteDoc(doc(db, "leads", id));
+            fetchLeads();
+        } catch (err) {
+            alert("Error deleting lead.");
+            console.error(err);
+        }
+    }
+}
+
+if (refreshLeadsBtn) {
+    refreshLeadsBtn.addEventListener("click", fetchLeads);
 }

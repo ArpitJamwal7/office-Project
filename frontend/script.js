@@ -1,22 +1,23 @@
-// ===== DATA =====
 import { db } from "./firebase-config.js";
-import { collection, getDocs } from "firebase/firestore";
+import { collection, getDocs, addDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore.js";
+console.log("🔥 DB Connected:", db);
 
 let properties = [
   {
-    title: "Creative Workspace",
+    title: "IT Office Space in Chandigarh",
     price: 320000,
     location: "Sector 83A",
     city: "Mohali",
     image: "images/office1.jpeg",
+    propertyId: "fallback-1",
     furnishing: "Furnished",
     listed: "Owner",
     area: "5000 sqft",
-    washrooms: "2",
-    description: "Office space available in prime location"
+    washrooms: "3",
+    description: "Office space available in IT Park"
   },
   {
-    title: "Modern Office",
+    title: "IT Office Space in Mohali",
     price: 480000,
     location: "Sector 67",
     city: "Mohali",
@@ -28,7 +29,7 @@ let properties = [
     description: "Fully furnished office in IT Park"
   },
   {
-    title: "Creative Workspace",
+    title: "Co-Working Space",
     price: 650000,
     location: "Sector 74",
     city: "Mohali",
@@ -36,11 +37,11 @@ let properties = [
     furnishing: "Furnished",
     listed: "Owner",
     area: "12000 sqft",
-    washrooms: "2",
+    washrooms: "",
     description: "Premium office space"
   },
   {
-    title: "Executive Office Suite",
+    title: "Office Space in Mohali",
     price: 55000,
     location: "Industrial Area Phase 8B",
     city: "Mohali",
@@ -52,7 +53,7 @@ let properties = [
     description: "Premium office space"
   },
   {
-    title: "Executive Office Suite",
+    title: "Office Space in Mohali",
     price: 90000,
     location: "Industrial Area Phase 7",
     city: "Mohali",
@@ -64,7 +65,7 @@ let properties = [
     description: "Premium office space"
   },
   {
-    title: "Executive Office Suite",
+    title: "IT Office Space in Mohali",
     price: 350000,
     location: "Industrial Area Phase 8A",
     city: "Mohali",
@@ -72,11 +73,11 @@ let properties = [
     furnishing: "Furnished",
     listed: "Owner",
     area: "5000 sqft",
-    washrooms: "2",
+    washrooms: "3",
     description: "Premium office space"
   },
   {
-    title: "Executive Office Suite",
+    title: "Co-Working Space",
     price: 135000,
     location: "Creative Workspace",
     city: "Chandigarh",
@@ -84,11 +85,11 @@ let properties = [
     furnishing: "Furnished",
     listed: "Owner",
     area: "1500 sqft",
-    washrooms: "2",
+    washrooms: "",
     description: "Premium office space"
   },
   {
-    title: "Executive Office Suite",
+    title: "IT Office Space in Chandigarh",
     price: 240000,
     location: "IT Park Chandigarh",
     city: "Chandigarh",
@@ -100,7 +101,7 @@ let properties = [
     description: "Premium office space"
   },
   {
-    title: "Executive Office Suite",
+    title: "Office Space in Chandigarh",
     price: 120000,
     location: "Sector 7 (Madhya Marg)",
     city: "Chandigarh",
@@ -112,7 +113,7 @@ let properties = [
     description: "Premium office space"
   },
   {
-    title: "Executive Office Suite",
+    title: "Office Space in Chandigarh",
     price: 100000,
     location: "Sector8 (Madhya Marg)",
     city: "Chandigarh",
@@ -124,7 +125,7 @@ let properties = [
     description: "Premium office space"
   },
   {
-    title: "Executive Office Suite",
+    title: "Office Space in Chandigarh",
     price: 100000,
     location: "Sector8 (Madhya Marg)",
     city: "Chandigarh",
@@ -136,7 +137,7 @@ let properties = [
     description: "Premium office space"
   },
   {
-    title: "Executive Office Suite",
+    title: "IT Office Space In Chandigarh",
     price: 150000,
     location: "Sector8",
     city: "Chandigarh",
@@ -144,11 +145,11 @@ let properties = [
     furnishing: "Furnished",
     listed: "Owner",
     area: "1200 sqft",
-    washrooms: "2",
+    washrooms: "3",
     description: "Premium office space"
   },
   {
-    title: "Executive Office Suite",
+    title: "IT Office Space In Mohali",
     price: 75000,
     location: "Industrial Area Phase 8B",
     city: "Mohali",
@@ -160,7 +161,7 @@ let properties = [
     description: "Premium office space"
   },
   {
-    title: "Executive Office Suite",
+    title: "Office Space In Chandigarh",
     price: 40000,
     location: "Sector 9",
     city: "Chandigarh",
@@ -168,11 +169,11 @@ let properties = [
     furnishing: "Furnished",
     listed: "Owner",
     area: "350 sqft",
-    washrooms: "2",
+    washrooms: "1",
     description: "Premium office space"
   },
   {
-    title: "Executive Office Suite",
+    title: "Office Space In Chandigarh",
     price: 108000,
     location: "Sector 17C",
     city: "Chandigarh",
@@ -184,7 +185,7 @@ let properties = [
     description: "Premium office space"
   },
   {
-    title: "Executive Office Suite",
+    title: "Office Space In Chandigarh",
     price: 28000,
     location: "Sector 34A",
     city: "Chandigarh",
@@ -196,7 +197,7 @@ let properties = [
     description: "Premium office space"
   },
   {
-    title: "Executive Office Suite",
+    title: "IT Office Space In Chandigarh",
     price: 144000,
     location: "Sector 34A",
     city: "Chandigarh",
@@ -204,11 +205,11 @@ let properties = [
     furnishing: "Furnished",
     listed: "Owner",
     area: "1200 sqft",
-    washrooms: "2",
+    washrooms: "3",
     description: "Premium office space"
   },
   {
-    title: "Executive Office Suite",
+    title: "Office Space In Chandigarh",
     price: 170000,
     location: "Sector 34C",
     city: "Chandigarh",
@@ -216,11 +217,11 @@ let properties = [
     furnishing: "Furnished",
     listed: "Owner",
     area: "1500 sqft",
-    washrooms: "2",
-    description: "Premium office space"
+    washrooms: "3",
+    description: "Premium Office Space"
   },
   {
-    title: "Executive Office Suite",
+    title: "Office Space In Chandigarh",
     price: 180000,
     location: "Sector 35C",
     city: "Chandigarh",
@@ -228,11 +229,11 @@ let properties = [
     furnishing: "Furnished",
     listed: "Owner",
     area: "1500 sqft",
-    washrooms: "2",
+    washrooms: "3",
     description: "Premium office space"
   },
   {
-    title: "Executive Office Suite",
+    title: "Office Space In Chandigarh",
     price: 100000,
     location: "Sector 40",
     city: "Chandigarh",
@@ -244,7 +245,7 @@ let properties = [
     description: "Premium office space"
   },
   {
-    title: "Executive Office Suite",
+    title: "Office Space In Chandigarh",
     price: 60000,
     location: "Sector 47",
     city: "Chandigarh",
@@ -256,7 +257,7 @@ let properties = [
     description: "Premium office space"
   },
   {
-    title: "Executive Office Suite",
+    title: "IT Office Space In Mohali",
     price: 240000,
     location: "Sector 74(Phase 8)",
     city: "Mohali",
@@ -276,11 +277,11 @@ let properties = [
     furnishing: "Furnished",
     listed: "Owner",
     area: "2500 sqft",
-    washrooms: "2",
+    washrooms: "4",
     description: "Premium office space"
   },
   {
-    title: "Creative Workspace",
+    title: "Showroom For Rent",
     price: 450000,
     location: "Sector 83A",
     city: "Mohali",
@@ -288,10 +289,10 @@ let properties = [
     furnishing: "Furnished",
     listed: "Owner",
     area: "7000 sqft",
-    washrooms: "2",
-    description: "Premium office space"
+    washrooms: "4",
+    description: "Showroom For Rent In Sector 83A In Mohali"
   }, {
-    title: "Executive Office Suite",
+    title: "IT Office Space In Chandigarh",
     price: 540000,
     location: "Sector 101A",
     city: "Mohali",
@@ -299,15 +300,15 @@ let properties = [
     furnishing: "Furnished",
     listed: "Owner",
     area: "9000 sqft",
-    washrooms: "2",
+    washrooms: "6",
     description: "Premium office space"
   },
   {
-    title: "Executive Office Suite",
+    title: "Office Space In Chandigarh",
     price: 155000,
     location: "Sector 17C",
     city: "Chandigarh",
-    image: "images/office22.jpeg",
+    image: "images/office26.jpeg",
     furnishing: "Furnished",
     listed: "Owner",
     area: "1000 sqft",
@@ -357,12 +358,15 @@ let properties = [
 function createCard(p) {
   return `
     <div class="card"
+      data-id="${p.id || p.propertyId}"
+      data-title="${p.title}"
       data-city="${p.city}"
       data-furnishing="${p.furnishing}"
       data-listed="${p.listed}"
       data-area="${p.area}"
       data-washrooms="${p.washrooms}"
-      data-description="${p.description}">
+      data-description="${p.description}"
+      data-image="${p.image}">
 
       <div class="property-image">
         <img src="${p.image}" loading="lazy" alt="Property">
@@ -375,6 +379,9 @@ function createCard(p) {
         <h3>${p.title}</h3>
         <p class="price">₹${p.price.toLocaleString()} / month</p>
         <p class="location">${p.location}</p>
+        <div class="card-actions">
+           <a href="tel:+919915002795" class="call-btn-small">📞 Call Now</a>
+        </div>
       </div>
     </div>
   `;
@@ -433,7 +440,8 @@ document.addEventListener("click", function (e) {
 
     const card = e.target.closest(".card");
 
-    document.getElementById("modal-title").innerText = card.querySelector("h3").innerText;
+    document.getElementById("modal-image").src = card.dataset.image;
+    document.getElementById("modal-title").innerText = card.dataset.title;
     document.getElementById("modal-price").innerText = card.querySelector(".price").innerText;
     document.getElementById("modal-location").innerText = card.querySelector(".location").innerText;
 
@@ -443,9 +451,48 @@ document.addEventListener("click", function (e) {
     document.getElementById("modal-washrooms").innerText = card.dataset.washrooms || "N/A";
     document.getElementById("modal-description").innerText = card.dataset.description || "N/A";
 
+    // Set lead form context
+    const leadForm = document.getElementById("leadForm");
+    leadForm.dataset.propertyId = card.dataset.id;
+    leadForm.dataset.propertyName = card.dataset.title;
+
+    document.getElementById("leadMessage").innerText = "";
     document.getElementById("property-modal").style.display = "block";
   }
 });
+
+// ===== LEAD SUBMISSION =====
+const leadForm = document.getElementById("leadForm");
+if (leadForm) {
+  leadForm.addEventListener("submit", async (e) => {
+    e.preventDefault();
+    const phone = document.getElementById("leadPhone").value;
+    const propertyId = leadForm.dataset.propertyId;
+    const propertyName = leadForm.dataset.propertyName;
+    const messageEl = document.getElementById("leadMessage");
+
+    try {
+      messageEl.innerText = "Sending request...";
+      messageEl.style.color = "#2563eb";
+
+      await addDoc(collection(db, "leads"), {
+        phone: phone,
+        propertyId: propertyId,
+        propertyName: propertyName,
+        status: "New",
+        timestamp: serverTimestamp()
+      });
+
+      messageEl.innerText = "Success! We will call you back shortly.";
+      messageEl.style.color = "green";
+      leadForm.reset();
+    } catch (err) {
+      console.error("Lead submission error:", err);
+      messageEl.innerText = "Error. Please try again or call us.";
+      messageEl.style.color = "red";
+    }
+  });
+}
 
 
 // ===== CLOSE MODAL =====

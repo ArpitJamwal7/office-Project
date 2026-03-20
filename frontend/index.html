@@ -10,6 +10,26 @@
 
   <link rel="stylesheet" href="style.css">
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+  <link rel="apple-touch-icon" sizes="57x57" href="./apple-icon-57x57.png">
+  <link rel="apple-touch-icon" sizes="60x60" href="./apple-icon-60x60.png">
+  <link rel="apple-touch-icon" sizes="72x72" href="./apple-icon-72x72.png">
+  <link rel="apple-touch-icon" sizes="76x76" href="./apple-icon-76x76.png">
+  <link rel="apple-touch-icon" sizes="114x114" href="./apple-icon-114x114.png">
+  <link rel="apple-touch-icon" sizes="120x120" href="./apple-icon-120x120.png">
+  <link rel="apple-touch-icon" sizes="144x144" href="./apple-icon-144x144.png">
+  <link rel="apple-touch-icon" sizes="152x152" href="./apple-icon-152x152.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="./apple-icon-180x180.png">
+
+  <link rel="icon" type="image/png" sizes="192x192" href="./android-icon-192x192.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="./favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="96x96" href="./favicon-96x96.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="./favicon-16x16.png">
+
+  <link rel="manifest" href="./manifest.json">
+
+  <meta name="msapplication-TileColor" content="#ffffff">
+  <meta name="msapplication-TileImage" content="./ms-icon-144x144.png">
+  <meta name="theme-color" content="#ffffff">
 </head>
 
 <body>
@@ -73,7 +93,7 @@
       <p>Sectors Covered</p>
     </div>
     <div>
-      <h2>₹10+Lakh/mo</h2>
+      <h2>₹20+Lakh/mo</h2>
       <p>Max Budget</p>
     </div>
   </section>
@@ -101,7 +121,7 @@
     <div class="footer-container">
 
       <div>
-        <h2> Office Space For Rent In Chd & Mohali</h2>
+        <h2>Office Spaces For Rent In Chd & Mohali</h2>
         <p>Premium Commercial Office Spaces for Rent & Lease</p>
       </div>
 
@@ -119,24 +139,69 @@
     <div class="modal-content">
       <span class="close">&times;</span>
 
-      <h2 id="modal-title"></h2>
-      <p id="modal-price"></p>
-      <p id="modal-location"></p>
+      <div class="modal-grid">
+        <div class="modal-left">
+          <img id="modal-image" src="" alt="Property Image" class="modal-hero-img">
+          <h2 id="modal-title"></h2>
+          <p id="modal-price" class="modal-price-text"></p>
+          <p id="modal-location"></p>
 
-      <hr>
+          <div class="modal-details-grid">
+            <div class="detail-item">
+              <span class="label">Furnishing</span>
+              <span id="modal-furnishing" class="value"></span>
+            </div>
+            <div class="detail-item">
+              <span class="label">Listed By</span>
+              <span id="modal-listed" class="value"></span>
+            </div>
+            <div class="detail-item">
+              <span class="label">Area</span>
+              <span id="modal-area" class="value"></span>
+            </div>
+            <div class="detail-item">
+              <span class="label">Washrooms</span>
+              <span id="modal-washrooms" class="value"></span>
+            </div>
+          </div>
 
-      <h3>Details</h3>
-      <p><strong>Furnishing:</strong> <span id="modal-furnishing"></span></p>
-      <p><strong>Listed By:</strong> <span id="modal-listed"></span></p>
-      <p><strong>Area:</strong> <span id="modal-area"></span></p>
-      <p><strong>Washrooms:</strong> <span id="modal-washrooms"></span></p>
+          <h3>Description</h3>
+          <p id="modal-description"></p>
+        </div>
 
-      <h3>Description</h3>
-      <p id="modal-description"></p>
+        <div class="modal-right">
+          <div class="lead-form-container">
+            <h3>Get Price & Availability Details</h3>
+            <p>Enter your phone number and we will call you back shortly.</p>
+            <form id="leadForm">
+              <input type="tel" id="leadPhone" placeholder="Enter Phone Number" required pattern="[0-9]{10}">
+              <button type="submit" class="btn-primary full-width">Request Call Back</button>
+            </form>
+            <div id="leadMessage" class="lead-feedback"></div>
+          </div>
+
+          <div class="feature-highlights">
+            <div class="feature"><i class="icon">✅</i> Fully Maintained</div>
+            <div class="feature"><i class="icon">✅</i> Prime Location</div>
+            <div class="feature"><i class="icon">✅</i> Secure Access</div>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 
-  <!-- EXTERNAL JS -->
+  <!-- FLOATING BUTTONS -->
+  <div class="floating-container">
+    <a href="https://wa.me/919915002795?text=Hello%20I%20am%20interested%20in%20renting%20office%20space"
+      class="float-btn whatsapp" target="_blank">
+      <img src="https://cdn-icons-png.flaticon.com/512/3670/3670051.png" alt="WhatsApp">
+    </a>
+    <a href="tel:+919915002795" class="float-btn call">
+      <img src="https://cdn-icons-png.flaticon.com/512/3059/3059590.png" alt="Call Now">
+    </a>
+  </div>
+
+  <!-- Main Script -->
   <script type="module" src="script.js"></script>
 
 </body>

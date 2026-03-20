@@ -1,24 +1,42 @@
 /* Admin specific styles */
 
 body {
-    background: #f4f7f6;
-    font-family: 'Poppins', sans-serif;
+    background: var(--bg-light);
+    font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', sans-serif;
+    color: var(--dark);
 }
 
 .admin-section {
     display: none;
-    min-height: calc(100vh - 160px);
-    padding: 40px 20px;
+    min-height: calc(100vh - 80px);
+    /* Adjust for header */
+    padding: 60px 20px 40px;
+    /* Top padding to avoid header overlap */
 }
 
 .admin-section.active {
+    display: block;
+}
+
+#loginSection.active {
     display: flex;
     justify-content: center;
     align-items: center;
+    padding: 80px 20px 40px;
+    /* Account for fixed header */
+    min-height: 100vh;
 }
 
-#dashboardSection.active {
-    display: block;
+.admin-nav-item {
+    padding: 8px 16px;
+    border-radius: 20px;
+    transition: all 0.3s;
+}
+
+.admin-nav-item.active {
+    background: rgba(0, 113, 227, 0.1);
+    color: #0071e3 !important;
+    font-weight: 600;
 }
 
 /* Glassmorphism Login Panel */
@@ -89,18 +107,18 @@ body {
 .btn-primary {
     width: 100%;
     padding: 12px;
-    background: #0056b3;
+    background: var(--primary);
     color: white;
     border: none;
-    border-radius: 8px;
+    border-radius: 12px;
     font-size: 1rem;
     font-weight: 600;
     cursor: pointer;
-    transition: background 0.3s ease, transform 0.2s ease;
+    transition: var(--transition);
 }
 
 .btn-primary:hover {
-    background: #004494;
+    background: var(--primary-hover);
     transform: translateY(-2px);
 }
 
@@ -197,13 +215,50 @@ table td {
     background: #d68910;
 }
 
-.delete-btn {
-    background: #e74c3c;
-    color: white;
-}
-
 .delete-btn:hover {
     background: #c0392b;
+}
+
+/* Status Badges */
+.status-badge {
+    padding: 4px 10px;
+    border-radius: 12px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-transform: uppercase;
+}
+
+.status-new {
+    background: #e3f2fd;
+    color: #1976d2;
+}
+
+.status-contacted {
+    background: #fff3e0;
+    color: #f57c00;
+}
+
+.status-closed {
+    background: #e8f5e9;
+    color: #388e3c;
+}
+
+.status-select {
+    padding: 4px 8px;
+    border-radius: 4px;
+    font-size: 0.85rem;
+    border: 1px solid #ddd;
+    margin-right: 10px;
+}
+
+.delete-lead-btn {
+    background: #fdf2f2;
+    color: #e02424;
+    border: 1px solid #f8d7da;
+}
+
+.delete-lead-btn:hover {
+    background: #f8d7da;
 }
 
 /* Modal specific for forms */
@@ -264,4 +319,45 @@ table td {
 
 .modal-actions .btn-primary {
     width: auto;
+}
+
+/* RESPONSIVE ADMIN PORTAL */
+@media (max-width: 768px) {
+    .admin-section {
+        padding: 80px 10px 30px;
+    }
+
+    #loginSection.active {
+        padding: 90px 15px 30px;
+    }
+
+    .dashboard-container {
+        padding: 15px;
+    }
+
+    .form-grid {
+        grid-template-columns: 1fr;
+        /* Single column forms */
+    }
+
+    .dashboard-header {
+        flex-direction: column;
+        gap: 15px;
+        align-items: flex-start;
+    }
+
+    .admin-modal-content {
+        padding: 20px;
+    }
+
+    .modal-actions {
+        flex-direction: column;
+        width: 100%;
+    }
+
+    .modal-actions .btn-primary,
+    .modal-actions .btn-secondary {
+        width: 100%;
+        margin-bottom: 10px;
+    }
 }

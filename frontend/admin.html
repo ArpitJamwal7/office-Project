@@ -10,20 +10,42 @@
     <link rel="stylesheet" href="admin.css">
     <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+
+    <link rel="apple-touch-icon" sizes="57x57" href="./apple-icon-57x57.png">
+    <link rel="apple-touch-icon" sizes="60x60" href="./apple-icon-60x60.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="./apple-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="76x76" href="./apple-icon-76x76.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="./apple-icon-114x114.png">
+    <link rel="apple-touch-icon" sizes="120x120" href="./apple-icon-120x120.png">
+    <link rel="apple-touch-icon" sizes="144x144" href="./apple-icon-144x144.png">
+    <link rel="apple-touch-icon" sizes="152x152" href="./apple-icon-152x152.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="./apple-icon-180x180.png">
+
+    <link rel="icon" type="image/png" sizes="192x192" href="./android-icon-192x192.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="./favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="96x96" href="./favicon-96x96.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="./favicon-16x16.png">
+
+    <link rel="manifest" href="./manifest.json">
+
+    <meta name="msapplication-TileColor" content="#ffffff">
+    <meta name="msapplication-TileImage" content="./ms-icon-144x144.png">
+    <meta name="theme-color" content="#ffffff">
 </head>
 
 <body>
 
     <!-- NAVBAR -->
     <header>
-        <a href="http://localhost:5173/" class="logo">
+        <a href="index.html" class="logo">
             <img src="images/Llogo.png" alt="Website Logo">
-            <span>Admin Portal | Office Spaces</span>
+            <span>Admin Portal | Office Spaces For Rent In Chd & Mohali</span>
         </a>
         <nav id="nav-menu">
-            <a href="http://localhost:5173/">View Live Site</a>
-            <a href="http://localhost:5173/">Home</a>
+            <a href="index.html">Home</a>
             <a href="about.html">About Us</a>
+            <a href="#" class="admin-nav-item active" data-section="dashboardSection">Properties</a>
+            <a href="#" class="admin-nav-item" data-section="leadsSection">Leads</a>
             <a href="#" id="logoutBtn" style="display:none; color: #ff4d4d;">Logout</a>
         </nav>
 
@@ -55,16 +77,16 @@
         </div>
     </section>
 
-    <!-- DASHBOARD SECTION -->
+    <!-- PROPERTIES SECTION -->
     <section id="dashboardSection" class="admin-section">
         <div class="dashboard-container">
             <div class="dashboard-header">
-                <h2>Manage Properties</h2>
-                <button id="addPropertyBtn" class="btn-primary">+ Add New Property</button>
+                <h2 id="adminHeaderTitle">Property Management</h2>
+                <button id="addPropertyBtn" class="btn-primary">Add New Property</button>
             </div>
 
             <div class="table-container">
-                <table id="propertiesTable">
+                <table>
                     <thead>
                         <tr>
                             <th>Image</th>
@@ -75,6 +97,33 @@
                         </tr>
                     </thead>
                     <tbody id="adminPropertiesList">
+                        <!-- Populated by JS -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </section>
+
+    <!-- LEADS SECTION -->
+    <section id="leadsSection" class="admin-section">
+        <div class="dashboard-container">
+            <div class="dashboard-header">
+                <h2>Customer Enquiries (Leads)</h2>
+                <button id="refreshLeadsBtn" class="btn-primary">Refresh Leads</button>
+            </div>
+
+            <div class="table-container">
+                <table id="leadsTable">
+                    <thead>
+                        <tr>
+                            <th>Date</th>
+                            <th>Phone</th>
+                            <th>Property</th>
+                            <th>Status</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="adminLeadsList">
                         <!-- Populated by JS -->
                     </tbody>
                 </table>
