@@ -22,7 +22,3 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
-
-# Confidential Information (Do NOT Push!)
-credentials.js
-firebase-config.js

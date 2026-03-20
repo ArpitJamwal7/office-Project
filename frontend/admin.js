@@ -1,6 +1,6 @@
-// Firebase imports kept for Firestore CRUD, but Auth is removed
-import { db } from "./firebase-config.js";
+import { db, auth } from "./firebase-config.js";
 import { collection, getDocs, addDoc, updateDoc, deleteDoc, doc } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore.js";
+import { signInWithEmailAndPassword, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-auth.js";
 
 // UI Elements
 const loginSection = document.getElementById("loginSection");
@@ -32,15 +32,15 @@ let uploadWidget;
 // ==========================================
 
 function isAdminLoggedIn() {
-    return localStorage.getItem("adminLoggedIn") === "true";
+    return auth.currentUser !== null;
 }
 
-// Check localStorage on load
-function checkAuthState() {
+// Check auth state from Firebase
+function checkAuthState(user) {
     // Hide all sections initially
     [loginSection, dashboardSection, leadsSection].forEach(sec => sec.classList.remove("active"));
 
-    if (isAdminLoggedIn()) {
+    if (user) {
         // User is logged in
         dashboardSection.classList.add("active");
         logoutBtn.style.display = "block";
@@ -58,43 +58,34 @@ function checkAuthState() {
     }
 }
 
-// Admin credentials
-import { ADMIN_EMAIL, ADMIN_PASSWORD } from "./credentials.js";
+onAuthStateChanged(auth, (user) => {
+    checkAuthState(user);
+});
 
-// Initial Check
-checkAuthState();
-
-loginForm.addEventListener("submit", (e) => {
-
+loginForm.addEventListener("submit", async (e) => {
     e.preventDefault();
 
     const email = document.getElementById("loginEmail").value.trim();
     const password = document.getElementById("loginPassword").value;
 
-    if (email === ADMIN_EMAIL && password === ADMIN_PASSWORD) {
-
+    try {
+        await signInWithEmailAndPassword(auth, email, password);
         loginError.textContent = "";
-        localStorage.setItem("adminLoggedIn", "true");
-
-        checkAuthState();
-
-    } else {
-
+    } catch (error) {
         loginError.textContent = "Invalid Credentials. Please try again.";
-
+        console.error("Login error:", error);
     }
-
 });
 
-logoutBtn.addEventListener("click", () => {
-
-    localStorage.removeItem("adminLoggedIn");
-
-    properties = [];
-    leads = [];
-
-    location.reload();
-
+logoutBtn.addEventListener("click", async () => {
+    try {
+        await signOut(auth);
+        properties = [];
+        leads = [];
+        // No need to reload, onAuthStateChanged will handle UI changes
+    } catch (error) {
+        console.error("Logout error:", error);
+    }
 });
 
 // Admin Navigation (Tab Switching)

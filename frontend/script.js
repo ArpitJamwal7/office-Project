@@ -466,10 +466,27 @@ const leadForm = document.getElementById("leadForm");
 if (leadForm) {
   leadForm.addEventListener("submit", async (e) => {
     e.preventDefault();
-    const phone = document.getElementById("leadPhone").value;
+    const phone = document.getElementById("leadPhone").value.trim();
     const propertyId = leadForm.dataset.propertyId;
     const propertyName = leadForm.dataset.propertyName;
     const messageEl = document.getElementById("leadMessage");
+
+    // 1. Phone validation (Strict JS regex backup)
+    const phoneRegex = /^[0-9]{10}$/;
+    if (!phoneRegex.test(phone)) {
+        messageEl.innerText = "Please enter a valid 10-digit phone number.";
+        messageEl.style.color = "red";
+        return;
+    }
+
+    // 2. Simple Rate Limiting (Prevent spam in a 5-minute window)
+    const lastSubmission = localStorage.getItem("lastLeadSubmission");
+    const now = Date.now();
+    if (lastSubmission && now - parseInt(lastSubmission) < 300000) { // 300,000 ms = 5 minutes
+        messageEl.innerText = "You have already submitted a request recently. Please try again later or call us directly.";
+        messageEl.style.color = "orange";
+        return;
+    }
 
     try {
       messageEl.innerText = "Sending request...";
@@ -482,6 +499,9 @@ if (leadForm) {
         status: "New",
         timestamp: serverTimestamp()
       });
+
+      // Update timestamp for rate limiting tracking
+      localStorage.setItem("lastLeadSubmission", now.toString());
 
       messageEl.innerText = "Success! We will call you back shortly.";
       messageEl.style.color = "green";
