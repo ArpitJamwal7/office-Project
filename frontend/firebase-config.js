@@ -2,22 +2,22 @@ import { initializeApp } from "firebase/app";
 import { getAuth } from "firebase/auth";
 import { getFirestore } from "firebase/firestore";
 
-// Your new web app's Firebase configuration
+// UPDATED configuration for project: office-project-fe76d-39edb
 const firebaseConfig = {
-  apiKey: "AIzaSyDkLhVUkKyTpDsiuWeYgKcB5cfA9w8xDTU",
-  authDomain: "office-project-fe76d.firebaseapp.com",
-  projectId: "office-project-fe76d",
-  storageBucket: "office-project-fe76d.firebasestorage.app",
-  messagingSenderId: "930957679615",
-  appId: "1:930957679615:web:6b9ed96c72bf24c0a3e5ca",
-  measurementId: "G-GB69TSWHR7"
+  apiKey: "AIzaSyA_ydnErG0VyN1NYNAX_sgD_YUZr31qEkQ",
+  authDomain: "office-project-fe76d-39edb.firebaseapp.com",
+  projectId: "office-project-fe76d-39edb",
+  storageBucket: "office-project-fe76d-39edb.firebasestorage.app",
+  messagingSenderId: "45198425191",
+  appId: "1:45198425191:web:15db3e99c76ffe7407e8c2",
+  measurementId: "G-DSQQVGPB7C"
 };
 
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
 
-// Export services for use in script.js and admin.js
+// Export services
 export const auth = getAuth(app);
 export const db = getFirestore(app);
 
-console.log("✅ Firebase Connected to New Project: office-project-fe76d");
+console.log("✅ Firebase Connected to: office-project-fe76d-39edb");

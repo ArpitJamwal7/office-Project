@@ -222,7 +222,7 @@ document.getElementById("propImageFile").addEventListener("change", async functi
         statusEl.style.color = "red";
 
         // Detailed troubleshooting for the user
-        let alertMsg = "Upload Failed!\n\nReason: " + error.message + "\n\nPlease ensure:\n1. Your Cloudinary Cloud Name is correctly set to 'dmx6z5lja'.\n2. You have an UNSIGNED upload preset named 'office_rental_preset'.\n3. You are connected to the internet.";
+        let alertMsg = `Upload Failed!\n\nReason: ${error.message}\n\nPlease ensure:\n1. Your Cloudinary Cloud Name is correct.\n2. In Cloudinary, your upload preset '${CLOUDINARY_UPLOAD_PRESET}' has its "Signing Mode" set to "Unsigned" (currently it is likely set to Signed).\n3. You are connected to the internet.`;
         alert(alertMsg);
     } finally {
         saveBtn.disabled = false;
