@@ -76,7 +76,7 @@
 
 .about-hero {
   height: 120vh;
-  background: url("images/abouthead.jpeg") center/cover no-repeat;
+  background: url("/images/abouthead.jpeg") center/cover no-repeat;
   position: relative;
   display: flex;
   align-items: center;
