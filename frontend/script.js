@@ -1,5 +1,5 @@
 import { db } from "./firebase-config.js";
-import { collection, getDocs, addDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore.js";
+import { collection, getDocs, addDoc, serverTimestamp } from "firebase/firestore";
 console.log("🔥 DB Connected:", db);
 
 let properties = [
@@ -474,18 +474,18 @@ if (leadForm) {
     // 1. Phone validation (Strict JS regex backup)
     const phoneRegex = /^[0-9]{10}$/;
     if (!phoneRegex.test(phone)) {
-        messageEl.innerText = "Please enter a valid 10-digit phone number.";
-        messageEl.style.color = "red";
-        return;
+      messageEl.innerText = "Please enter a valid 10-digit phone number.";
+      messageEl.style.color = "red";
+      return;
     }
 
     // 2. Simple Rate Limiting (Prevent spam in a 5-minute window)
     const lastSubmission = localStorage.getItem("lastLeadSubmission");
     const now = Date.now();
     if (lastSubmission && now - parseInt(lastSubmission) < 300000) { // 300,000 ms = 5 minutes
-        messageEl.innerText = "You have already submitted a request recently. Please try again later or call us directly.";
-        messageEl.style.color = "orange";
-        return;
+      messageEl.innerText = "You have already submitted a request recently. Please try again later or call us directly.";
+      messageEl.style.color = "orange";
+      return;
     }
 
     try {

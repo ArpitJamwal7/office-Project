@@ -1,6 +1,6 @@
 import { db, auth } from "./firebase-config.js";
-import { collection, getDocs, addDoc, updateDoc, deleteDoc, doc } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore.js";
-import { signInWithEmailAndPassword, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-auth.js";
+import { collection, getDocs, addDoc, updateDoc, deleteDoc, doc } from "firebase/firestore";
+import { signInWithEmailAndPassword, signOut, onAuthStateChanged } from "firebase/auth";
 
 // UI Elements
 const loginSection = document.getElementById("loginSection");
@@ -167,7 +167,7 @@ function renderAdminTable() {
 // ==========================================
 // 3. CLOUDINARY CUSTOM UPLOAD (Direct Device Select)
 // ==========================================
-const CLOUDINARY_URL = "https://api.cloudinary.com/v1_1/dmx6z5lja/image/upload";
+const CLOUDINARY_URL = "https://api.cloudinary.com/v1_1/dlm2h6qk4/image/upload";
 const CLOUDINARY_UPLOAD_PRESET = "office_rental_preset"; // Create an "unsigned" preset in Cloudinary Settings -> Upload
 
 document.getElementById("propImageFile").addEventListener("change", async function (e) {
