@@ -1,3 +1,63 @@
+/* ================= HEADER MATCHING INDEX ================= */
+:root {
+  --primary: #0071e3;
+  --dark: #1d1d1f;
+  --glass: rgba(255, 255, 255, 0.7);
+  --transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 40px; /* Index page wala exact padding */
+  z-index: 100;
+  background: var(--glass);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+  transition: var(--transition);
+}
+
+/* Isse text ka size aur weight index jaisa ho jayegi */
+.logo span {
+  font-weight: 600;
+  font-size: 18px; 
+  color: var(--dark);
+  letter-spacing: -0.5px;
+  margin-left: 12px;
+}
+
+.logo img {
+  height: 34px;
+  width: auto;
+}
+
+header nav a {
+  color: var(--dark);
+  margin-left: 30px;
+  text-decoration: none;
+  font-weight: 500;
+  font-size: 14px; /* Index page wala size */
+  opacity: 0.8;
+  transition: var(--transition);
+}
+
+header nav a:hover {
+  opacity: 1;
+  color: var(--primary);
+}
+
+/* ================= HERO FIX ================= */
+/* Header fixed hai, isliye hero ko thoda padding chahiye taaki content piche na dabe */
+.about-hero {
+  margin-top: 0; 
+  padding-top: 60px; /* Header ki height ke liye gap */
+}
 /* ================= ABOUT CONTAINER ================= */
 
 .about-container {
