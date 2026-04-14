@@ -1,1 +1,6 @@
-/* /index.html   200
+# Clean URLs for About and Admin pages
+/about      /about.html      200
+/admin      /admin.html      200
+
+# Fallback to Index for anything else (Optional for SPAs)
+/* /index.html      200
